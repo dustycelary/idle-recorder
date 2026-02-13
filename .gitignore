@@ -1,9 +1,8 @@
-# mac ones
+# local ones
 
 .DS_Store
-
-
-
+playground.py
+assets/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

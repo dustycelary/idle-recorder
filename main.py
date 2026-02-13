@@ -1,41 +1,60 @@
 from pvrecorder import PvRecorder
-import wave
-import struct
+import wave, struct, sys, math
+from datetime import datetime
+
+file_path = sys.argv[1]
+
+# TODO: setting time to stop recording, such as a date or a number of minutes
 
 
-# for index, device in enumerate(PvRecorder.get_available_devices()):
-#     print(f"{index}: {device}")
+def select_device():
+    for index, device in enumerate(PvRecorder.get_available_devices()):
+        print(f"{index}: {device}")
+    selected_device_index = int(input("What device would you like to record(index): "))
+    return selected_device_index
 
 
-recorder = PvRecorder(device_index=1, frame_length=512)
-ending_digit = 0
-ending = False
-while not ending:
-    ending_digit += 1
-    audio = []
-    try:
-        recorder.start()
+def run():
 
-        # for i in range(9375):
-        for i in range(5):
-            frame = recorder.read()
-            audio.extend(frame)
+    time_interval = float(input("What length time intervals would you like(min): "))
+    # time_interval = int(input("What length time intervals would you like(min): "))
+    device_index = select_device()
 
-        recorder.stop()
-        with wave.open(
-            f"/Users/fergushunt/OneDrive/recordingApp/audio{ending_digit}.wav", "w"
-        ) as f:
-            f.setparams((1, 2, 16000, 512, "NONE", "NONE"))
-            f.writeframes(struct.pack("h" * len(audio), *audio))
-            print(f"Saved file: audio{ending_digit}.wav")
+    recorder = PvRecorder(device_index=device_index, frame_length=512)
+    frame_length = 512 / 16000
+    frame_number = math.ceil((time_interval * 60) / frame_length)
 
-    except KeyboardInterrupt:
-        ending = True
-        recorder.stop()
-        with wave.open(
-            f"/Users/fergushunt/OneDrive/recordingApp/audio{ending_digit}.wav", "w"
-        ) as f:
-            f.setparams((1, 2, 16000, 512, "NONE", "NONE"))
-            f.writeframes(struct.pack("h" * len(audio), *audio))
+    ending = False
+    while not ending:
+        audio = []
+        start_time = datetime.now().strftime("%Y%m%d-%H:%M:%S")
+        file_name = f"{start_time}_length{time_interval}.wav"
+        try:
+            recorder.start()
 
-        recorder.delete()
+            # for i in range(9375):
+            for i in range(frame_number):
+                frame = recorder.read()
+                audio.extend(frame)
+
+            recorder.stop()
+            with wave.open(
+                f"{file_path}/{file_name}",
+                "w",
+            ) as f:
+                f.setparams((1, 2, 16000, 512, "NONE", "NONE"))
+                f.writeframes(struct.pack("h" * len(audio), *audio))
+                print(f"Saved file: {file_name}")
+
+        except KeyboardInterrupt:
+            ending = True
+            recorder.stop()
+            with wave.open(f"{file_path}/{file_name}", "w") as f:
+                f.setparams((1, 2, 16000, 512, "NONE", "NONE"))
+                f.writeframes(struct.pack("h" * len(audio), *audio))
+
+            recorder.delete()
+
+
+if __name__ == "__main__":
+    run()
