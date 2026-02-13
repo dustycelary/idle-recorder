@@ -16,7 +16,8 @@ def select_device():
 
 def run():
 
-    time_interval = int(input("What length time intervals would you like(min): "))
+    time_interval = float(input("What length time intervals would you like(min): "))
+    # time_interval = int(input("What length time intervals would you like(min): "))
     device_index = select_device()
 
     recorder = PvRecorder(device_index=device_index, frame_length=512)
@@ -43,7 +44,7 @@ def run():
             ) as f:
                 f.setparams((1, 2, 16000, 512, "NONE", "NONE"))
                 f.writeframes(struct.pack("h" * len(audio), *audio))
-                print(f"Saved file: {file_name}.wav")
+                print(f"Saved file: {file_name}")
 
         except KeyboardInterrupt:
             ending = True
