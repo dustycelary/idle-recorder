@@ -4,8 +4,6 @@ from datetime import datetime
 
 file_path = sys.argv[1]
 
-# TODO: setting time to stop recording, such as a date or a number of minutes
-
 
 def select_device():
     for index, device in enumerate(PvRecorder.get_available_devices()):
