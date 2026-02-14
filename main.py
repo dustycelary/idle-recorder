@@ -2,7 +2,7 @@ from pvrecorder import PvRecorder
 import wave, struct, sys, math
 from datetime import datetime
 
-file_path = "main_version.wav"
+file_path = sys.argv[1]
 
 # TODO: This is my merge test [commit 1]
 # TODO: this is my second merge test commit
