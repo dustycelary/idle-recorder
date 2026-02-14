@@ -51,7 +51,6 @@ def run():
                 print(f"Saved file: {file_name}")
 
         except KeyboardInterrupt:
-            ending = True
             recorder.stop()
             with wave.open(f"{file_path}/{file_name}", "w") as f:
                 f.setparams((1, 2, 16000, 512, "NONE", "NONE"))
