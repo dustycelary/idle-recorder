@@ -5,6 +5,9 @@ from datetime import datetime
 file_path = sys.argv[1]
 
 
+# TODO: This is my merge test [commit 1]
+
+
 def select_device():
     for index, device in enumerate(PvRecorder.get_available_devices()):
         print(f"{index}: {device}")
