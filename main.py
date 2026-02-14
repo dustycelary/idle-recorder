@@ -6,6 +6,7 @@ file_path = sys.argv[1]
 
 
 # TODO: This is my merge test [commit 1]
+# TODO: this is my second merge test commit
 
 
 def select_device():
