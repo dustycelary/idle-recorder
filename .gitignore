@@ -1,5 +1,6 @@
 # local ones
 
+*.wav
 .DS_Store
 playground.py
 assets/
