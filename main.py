@@ -10,7 +10,6 @@ try:
 except IndexError:
     file_path = "/Users/fergushunt/Documents/idle-recorder/assets"
 
-# TODO: this is my second merge test commit
 
 
 def select_device():
