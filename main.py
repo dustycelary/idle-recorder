@@ -1,8 +1,14 @@
 from pvrecorder import PvRecorder
-import wave, struct, sys, math
+import wave
+import struct
+import sys
+import math
 from datetime import datetime
 
-file_path = sys.argv[1]
+try:
+    file_path = sys.argv[1]
+except IndexError:
+    file_path = "/Users/fergushunt/Documents/idle-recorder/assets"
 
 # TODO: This is my merge test [commit 1]
 # TODO: this is my second merge test commit
@@ -16,6 +22,7 @@ def select_device():
 
 
 def run():
+
     datetime_format = "%Y-%m-%d %H:%M:%S"
     time_interval = float(input("What length time intervals would you like(min): "))
     end_time_string = input(
@@ -28,9 +35,10 @@ def run():
 
     recorder = PvRecorder(device_index=device_index, frame_length=512)
     frame_length = 512 / 16000
+
     frame_number = math.ceil((time_interval * 60) / frame_length)
 
-    while datetime.now() < end_time:
+   while datetime.now() < end_time:
         audio = []
         start_time = datetime.now().strftime("%Y%m%d-%H:%M:%S")
         file_name = f"{start_time}_length{time_interval}.wav"
